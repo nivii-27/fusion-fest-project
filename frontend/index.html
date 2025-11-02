@@ -1144,7 +1144,7 @@ async function handleLogin(e) {
   const password = form.password.value;
 
   const endpoint = loginUserType === 'customer' ? 'customers' : 'vendors';
-  const loginUrl = `${API_URL}/${endpoint}/login`;
+  const loginUrl = `${API_URL}/login`;
   
   console.log('Attempting login to:', loginUrl);
   console.log('Login data:', { username, userType: loginUserType });
@@ -1941,7 +1941,7 @@ async function handlePortfolioUpdate(e) {
 
 async function loadVendorsFromDB() {
   try {
-    const response = await fetch(`${API_URL}/vendors`);
+    const response = await fetch(`${API_URL}/API/vendors`);
     if (response.ok) {
       vendors = await response.json();
       if (document.getElementById('servicesPage').classList.contains('hidden') === false) {
