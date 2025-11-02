@@ -1538,7 +1538,7 @@ async function processPayment(e) {
   };
   
   try {
-    const response = await fetch(`${API_URL}/bookings`, {
+    const response = await fetch(`${API_URL}/API/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(booking)
