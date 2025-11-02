@@ -929,7 +929,7 @@ body {
 </div>
 
 <script>
-const API_URL = 'https://fusion-fest-project-3.onrender.com';
+const API_URL = 'http://localhost:5000/api';
 let vendors = [];
 let cart = [];
 let bookings = [];
@@ -1143,8 +1143,8 @@ async function handleLogin(e) {
   const username = form.username.value.trim();
   const password = form.password.value;
 
-  const loginUserType === 'customer' ? 'customers' : 'vendors';
-  const loginUrl = `${API_URL}/api/customers/login`;
+  const endpoint = loginUserType === 'customer' ? 'customers' : 'vendors';
+  const loginUrl = `${API_URL}/${endpoint}/login`;
   
   console.log('Attempting login to:', loginUrl);
   console.log('Login data:', { username, userType: loginUserType });
@@ -1182,7 +1182,7 @@ async function handleLogin(e) {
     console.error('Error name:', err.name);
     console.error('Error message:', err.message);
     
-    alert('Login failed!\n\nError: ' + err.message + '\n\nPlease check:\n1. Check the browser console for details');
+    alert('Login failed!\n\nError: ' + err.message + '\n\nPlease check:\n1. Is your backend running on http://localhost:5000?\n2. Check the browser console for details');
   }
 }
 function handleLogout() {
@@ -1354,8 +1354,8 @@ function viewPortfolio(vendor) {
                 <div class="item-name">${menuItem[0]}</div>
                 <div class="item-price">${priceDisplay}</div>
                 <div style="display: flex; gap: 0.5rem;">
-                  <button class="btn btn-small" onclick='addToCart("${menuItem[0]} (500g)", ${halfKgPrice})'>Add 500g</button>
-                  <button class="btn btn-small" onclick='addToCart("${menuItem[0]} (1kg)", ${basePrice})'>Add 1kg</button>
+                  <button class="btn btn-small" onclick='addToCart("${menuItem[0]} (500g)", ${halfKgPrice}); closeModal();'>Add 500g</button>
+                  <button class="btn btn-small" onclick='addToCart("${menuItem[0]} (1kg)", ${basePrice}); closeModal();'>Add 1kg</button>
                 </div>
               </div>
             `;
@@ -1365,7 +1365,7 @@ function viewPortfolio(vendor) {
                 <img src="${imageSrc}" alt="${menuItem[0]}" onerror="this.src='https://via.placeholder.com/250x180?text=No+Image'">
                 <div class="item-name">${menuItem[0]}</div>
                 <div class="item-price">${priceDisplay}</div>
-                <button class="btn btn-small" onclick='addToCart("${menuItem[0]}", ${priceNum})'>Add to Cart</button>
+                <button class="btn btn-small" onclick='addToCart("${menuItem[0]}", ${priceNum}); closeModal();'>Add to Cart</button>
               </div>
             `;
           }
@@ -1377,13 +1377,6 @@ function viewPortfolio(vendor) {
   } else {
     html += `<div class="portfolio-section"><p style="text-align: center; color: rgba(255,255,255,0.6);">No portfolio items available</p></div>`;
   }
-  
-  // Add a "Done Shopping" button at the bottom
-  html += `
-    <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 2px solid rgba(255,255,255,0.1);">
-      <button class="btn" onclick="closeModal()" style="padding: 1rem 3rem; font-size: 1.1rem;">✓ Done Shopping</button>
-    </div>
-  `;
   
   content.innerHTML = html;
   modal.style.display = 'block';
@@ -1417,7 +1410,6 @@ function addToCart(name, price) {
   cart.push({ name, price, id: Date.now() });
   updateCart();
   alert(`${name} added to cart!`);
-  // Modal stays open - removed closeModal() call
 }
 
 function updateCart() {
@@ -1538,7 +1530,7 @@ async function processPayment(e) {
   };
   
   try {
-    const response = await fetch(`${API_URL}/api/bookings`, {
+    const response = await fetch(`${API_URL}/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(booking)
@@ -1741,7 +1733,7 @@ async function loadBookingsFromDB() {
   if (!currentUser) return;
   
   try {
-    const response = await fetch(`${API_URL}/api/bookings/customer/${currentUser.username}`);
+    const response = await fetch(`${API_URL}/bookings/customer/${currentUser.username}`);
     if (response.ok) {
       bookings = await response.json();
       renderBookings();
@@ -1913,7 +1905,7 @@ async function handlePortfolioUpdate(e) {
   }] : [];
   
   try {
-    const response = await fetch(`${API_URL}/API/vendors/${currentUser._id}/portfolio`, {
+    const response = await fetch(`${API_URL}/vendors/${currentUser._id}/portfolio`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ portfolio })
@@ -1941,7 +1933,7 @@ async function handlePortfolioUpdate(e) {
 
 async function loadVendorsFromDB() {
   try {
-    const response = await fetch(`${API_URL}/api/vendors`);
+    const response = await fetch(`${API_URL}/vendors`);
     if (response.ok) {
       vendors = await response.json();
       if (document.getElementById('servicesPage').classList.contains('hidden') === false) {
