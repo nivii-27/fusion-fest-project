@@ -1143,7 +1143,7 @@ async function handleLogin(e) {
   const username = form.username.value.trim();
   const password = form.password.value;
 
-  const endpoint = loginUserType === 'customer' ? 'customers' : 'vendors';
+  const loginUserType === 'customer' ? 'customers' : 'vendors';
   const loginUrl = `${API_URL}/api/customer/login`;
   
   console.log('Attempting login to:', loginUrl);
