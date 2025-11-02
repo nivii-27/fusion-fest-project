@@ -1741,7 +1741,7 @@ async function loadBookingsFromDB() {
   if (!currentUser) return;
   
   try {
-    const response = await fetch(`${API_URL}/API/bookings/customer/${currentUser.username}`);
+    const response = await fetch(`${API_URL}/api/bookings/customer/${currentUser.username}`);
     if (response.ok) {
       bookings = await response.json();
       renderBookings();
@@ -1941,7 +1941,7 @@ async function handlePortfolioUpdate(e) {
 
 async function loadVendorsFromDB() {
   try {
-    const response = await fetch(`${API_URL}/API/vendors`);
+    const response = await fetch(`${API_URL}/api/vendors`);
     if (response.ok) {
       vendors = await response.json();
       if (document.getElementById('servicesPage').classList.contains('hidden') === false) {
