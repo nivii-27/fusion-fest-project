@@ -1741,7 +1741,7 @@ async function loadBookingsFromDB() {
   if (!currentUser) return;
   
   try {
-    const response = await fetch(`${API_URL}/bookings/customer/${currentUser.username}`);
+    const response = await fetch(`${API_URL}/API/bookings/customer/${currentUser.username}`);
     if (response.ok) {
       bookings = await response.json();
       renderBookings();
