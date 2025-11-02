@@ -1144,7 +1144,7 @@ async function handleLogin(e) {
   const password = form.password.value;
 
   const endpoint = loginUserType === 'customer' ? 'customers' : 'vendors';
-  const loginUrl = `${API_URL}/API/customer/login`;
+  const loginUrl = `${API_URL}/api/customer/login`;
   
   console.log('Attempting login to:', loginUrl);
   console.log('Login data:', { username, userType: loginUserType });
@@ -1538,7 +1538,7 @@ async function processPayment(e) {
   };
   
   try {
-    const response = await fetch(`${API_URL}/API/bookings`, {
+    const response = await fetch(`${API_URL}/api/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(booking)
