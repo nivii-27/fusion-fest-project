@@ -1913,7 +1913,7 @@ async function handlePortfolioUpdate(e) {
   }] : [];
   
   try {
-    const response = await fetch(`${API_URL}/vendors/${currentUser._id}/portfolio`, {
+    const response = await fetch(`${API_URL}/API/vendors/${currentUser._id}/portfolio`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ portfolio })
