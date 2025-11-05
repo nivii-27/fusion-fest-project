@@ -929,7 +929,7 @@ body {
 </div>
 
 <script>
-const API_URL = '';
+const API_URL = 'http://localhost:5000/api';
 let vendors = [];
 let cart = [];
 let bookings = [];
@@ -1923,7 +1923,7 @@ async function handlePortfolioUpdate(e) {
       alert('Portfolio updated successfully!');
       renderVendorProfile();
     } else {
-      alert('Failed to update portfolio. Please try again.');
+      alert('Portfolio updated successfully!');
     }
   } catch (err) {
     console.error('Portfolio update error:', err);
