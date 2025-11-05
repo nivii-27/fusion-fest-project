@@ -9,7 +9,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`\n📨 ${req.method} ${req.url}`);
+  if (req.body && Object.keys(req.body).length > 0) {
+    console.log('Body:', { ...req.body, password: req.body.password ? '***' : undefined });
+  }
+  next();
+});
+
+// MongoDB Connection - Simple and clean for MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -27,5 +36,15 @@ app.get('/', (req, res) => {
   res.json({ message: 'Fusion Fest API is running!' });
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('❌ Server Error:', err);
+  res.status(500).json({ message: 'Internal server error', error: err.message });
+});
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📍 API URL: http://localhost:${PORT}`);
+  console.log(`📍 Test endpoint: http://localhost:${PORT}/`);
+});
